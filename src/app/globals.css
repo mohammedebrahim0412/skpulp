@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #123b2a;
+  --color-forest-600: #1b5a40;
+  --color-forest-300: #6fae8c;
+  --color-charcoal: #171b19;
+  --color-ink: #0f1211;
+  --color-steel: #68716e;
+  --color-steel-300: #a7aeab;
+  --color-beige: #e7ddc8;
+  --color-paper: #f7f6f0;
+  /* Fresh leaf green accent (from the brand logo) */
+  --color-leaf: #7cc04b;
+  --color-leaf-600: #5fa333;
+  --color-leaf-700: #3d7a24;
+  --color-pine: #0e3a24;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --text-display: clamp(2.6rem, 9.5vw, 8.75rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.045em;
+  --text-headline: clamp(1.9rem, 4.4vw, 3.6rem);
+  --text-headline--line-height: 1.06;
+  --text-headline--letter-spacing: -0.03em;
+  --text-title: clamp(1.4rem, 2.6vw, 2.1rem);
+  --text-title--line-height: 1.12;
+  --text-title--letter-spacing: -0.025em;
+  --text-lede: clamp(1.02rem, 1.4vw, 1.25rem);
+  --text-lede--line-height: 1.6;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Fixed header height (h-16 / md:h-[4.75rem]) + notch inset, so anchor targets clear the header */
+    scroll-padding-top: calc(4.5rem + env(safe-area-inset-top));
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  @media (min-width: 768px) {
+    html { scroll-padding-top: calc(5.25rem + env(safe-area-inset-top)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-forest);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-forest-300);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  img, video { max-width: 100%; }
+}
+
+@layer components {
+  /* Fine paper-grain texture for light sections (inline SVG noise, ~1KB) */
+  .paper-grain {
+    background-color: var(--color-paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .4 0 0 0 0 .3 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .paper-grain-beige {
+    background-color: var(--color-beige);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .33 0 0 0 0 .2 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .container-x {
+    width: 100%;
+    max-width: 92rem;
+    margin-inline: auto;
+    padding-inline: max(1.25rem, env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+  @media (min-width: 768px) {
+    .container-x { padding-inline: max(2.5rem, env(safe-area-inset-left)); }
+  }
+  @media (min-width: 1280px) {
+    .container-x { padding-inline: 4rem; }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  /* Torn-paper edge between sections. Place inside a relative section; colour = the neighbouring section. */
+  .torn-edge {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: clamp(18px, 3vw, 40px);
+    background: currentColor;
+    pointer-events: none;
+    z-index: 5;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40V18L20 12 42 9 54 25 67 19 78 24 94 9 106 21 129 10 146 10 169 9 182 15 193 26 215 9 232 9 246 17 269 12 282 26 301 25 316 11 332 19 345 25 357 26 368 14 393 25 416 18 440 26 464 19 483 15 498 15 510 26 529 24 554 18 578 17 590 11 616 21 631 18 645 23 668 9 680 25 700 18 721 23 745 10 757 16 782 10 793 17 817 17 839 19 849 22 870 13 883 23 894 14 913 12 930 20 952 23 964 13 988 20 1006 12 1029 25 1047 21 1068 20 1085 12 1097 13 1111 15 1128 8 1153 26 1168 16 1187 8 1200 21V40z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 40V18L20 12 42 9 54 25 67 19 78 24 94 9 106 21 129 10 146 10 169 9 182 15 193 26 215 9 232 9 246 17 269 12 282 26 301 25 316 11 332 19 345 25 357 26 368 14 393 25 416 18 440 26 464 19 483 15 498 15 510 26 529 24 554 18 578 17 590 11 616 21 631 18 645 23 668 9 680 25 700 18 721 23 745 10 757 16 782 10 793 17 817 17 839 19 849 22 870 13 883 23 894 14 913 12 930 20 952 23 964 13 988 20 1006 12 1029 25 1047 21 1068 20 1085 12 1097 13 1111 15 1128 8 1153 26 1168 16 1187 8 1200 21V40z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  }
+  .torn-edge.bottom { bottom: -1px; }
+  .torn-edge.top { top: -1px; transform: scaleY(-1); }
+
+  /* Scroll reveal: content is visible by default; JS opts elements into the animation. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 28px), 0);
+    transition:
+      opacity 0.9s var(--ease-cine),
+      transform 1.1s var(--ease-cine);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .js [data-reveal="mask"] {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(12% 0 12% 0);
+    transition: clip-path 1.3s var(--ease-cine);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal="mask"].is-in { clip-path: inset(0 0 0 0); }
+  @media (max-width: 767px) {
+    .js [data-reveal] { --reveal-y: 16px; transition-duration: 0.7s, 0.8s; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-reveal], .js [data-reveal="mask"] {
+      opacity: 1 !important;
+      transform: none !important;
+      clip-path: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+@layer utilities {
+  .pt-safe { padding-top: env(safe-area-inset-top); }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+}
+
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(220%); }
+}
+@keyframes route-dash {
+  to { stroke-dashoffset: -40; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Decorative leaves: gentle sway around each leaf's base */
+.leaf-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: leaf-sway 7s ease-in-out infinite;
+}
+@keyframes leaf-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .leaf-sway { animation: none; }
+}

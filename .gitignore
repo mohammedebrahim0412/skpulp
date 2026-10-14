@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+.env*.local
+.env
+next-env.d.ts
+*.tsbuildinfo
+public/media/.tmp
+
+# Raw source media (RAW photos, original film, supplied artwork) stay local; the processed
+# web versions in public/ are committed. Re-run `npm run media` locally after changing them.
+/images videos/
+# Original report (a copy is published at public/reports/)
+/Jolly_Board_Limited_SKPULP_CPPRI_TEST_REPORT.pdf
+# Local tooling
+/.claude/
+/.vercel
