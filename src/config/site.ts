@@ -100,7 +100,7 @@ export const clients = [
   { name: "Everest Industries Limited", logo: "/logos/everest.png", width: 447, height: 448, country: "India" },
   { name: "HIL Limited (BirlaNu)", logo: "/logos/hil.png", width: 480, height: 320, country: "India" },
   { name: "Jolly Board Limited", logo: "/logos/jolly-board.png", width: 208, height: 142, country: "India" },
-  { name: "Sahyadri Industries Limited", logo: "/logos/sahyadri.png", width: 200, height: 200, country: "India" },
+  { name: "Sahyadri Industries Limited", logo: "/logos/sahyadri-v2.png", width: 200, height: 53, country: "India" },
   { name: "ACFA", logo: "/logos/acfa.png", width: 480, height: 192, country: "Saudi Arabia", dark: true },
   { name: "United Mining Industries", logo: "/logos/united-mining.png", width: 271, height: 78, country: "Saudi Arabia" },
 ] as { name: string; logo: string; width: number; height: number; country: string; dark?: boolean }[];

@@ -63,7 +63,8 @@ const LOGO_FILES = [
   ["everest", "everest.jpg"],
   ["hil", "HIL.jpg"],
   ["jolly-board", "JOLLYBOARD.png"],
-  ["sahyadri", "Sahyadri Industries Limited.jpg"],
+  // Transparent PNG with wide margins: trimmed to the mark. New name so cached copies of the old logo are bypassed.
+  ["sahyadri-v2", "Sahyadri Industries Limited.png", { trim: true }],
   ["acfa", "ACFA (Saudi Arabia).png"],
   ["united-mining", "United Mining Industries (Saudi Arabia).png"],
 ];
@@ -110,8 +111,12 @@ for (const [name, file, crop] of PHOTOS) {
 }
 
 console.log("› logos");
-for (const [name, file] of LOGO_FILES) {
-  ff(["-i", `${IN}/${file}`, "-vf", "format=rgba,scale='min(480,iw)':-2:flags=lanczos", `${LOGOS}/${name}.png`]);
+for (const [name, file, opts] of LOGO_FILES) {
+  if (opts?.trim) {
+    await sharp(`${IN}/${file}`).trim({ threshold: 12 }).resize({ width: 480, withoutEnlargement: true }).png({ compressionLevel: 9 }).toFile(`${LOGOS}/${name}.png`);
+  } else {
+    ff(["-i", `${IN}/${file}`, "-vf", "format=rgba,scale='min(480,iw)':-2:flags=lanczos", `${LOGOS}/${name}.png`]);
+  }
 }
 
 console.log("› report");
