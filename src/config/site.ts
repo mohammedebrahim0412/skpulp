@@ -13,7 +13,7 @@ export const company = {
   tagline: "High Strength Secondary Wood Pulp",
   /** One-line positioning used in hero, meta and footer */
   positioning: "High strength secondary wood pulp for fibre cement sheets and boards",
-  contactPerson: { name: "Mohammed Kiyamuddin", title: "Marketing Head" },
+  contactPerson: { name: "Kiyamudin", title: "Marketing Head" },
   location: {
     short: "Latur, Maharashtra",
     full: "Latur district, Maharashtra, India",
